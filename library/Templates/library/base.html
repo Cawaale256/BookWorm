@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Bookworm Library{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+</head>
+<body>
+    <header>
+        <h1>Bookworm Library</h1>
+        <nav>
+            <ul>
+                <li><a href="{% url 'home' %}">Home</a></li>
+                <li><a href="{% url 'book_list' %}">Books</a></li>
+                <li><a href="{% url 'member_list' %}">Members</a></li>
+                <li><a href="{% url 'borrow_book' %}">Borrow</a></li>
+                <li><a href="{% url 'return_book' %}">Return</a></li>
+                <li><a href="{% url 'extend_due_date' %}">Extend Due Date</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        {% block content %}
+        {% endblock %}
+    </main>
+    <footer>
+        <p>&copy; 2024 Bookworm Library</p>
+    </footer>
+</body>
+</html>
