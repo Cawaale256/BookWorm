@@ -5,6 +5,7 @@
 BookWorm is a web application designed to manage the operations of a library. It allows users to manage books, members, borrowing and returning of books, and track due dates and fines. The system is built using Django, a high-level Python web framework.
 
 ## Features
+![New Wireframe 1](https://github.com/user-attachments/assets/8753ee23-ec29-4cf7-b722-bf52619deaab)
 
 - User authentication (Sign up, Sign in, Sign out)
 - Manage books (Add, Edit, Delete, View)
