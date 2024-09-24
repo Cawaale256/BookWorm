@@ -1,5 +1,6 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from .models import Book, Member  # Import Book and Member models
+from .forms import BookForm, MemberForm, BorrowForm, ReturnForm, ExtendForm  # Import forms
 
 # Home view
 # Render the home page

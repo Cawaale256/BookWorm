@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block title %}Borrow Book{% endblock %}
+
+{% block content %}
+<h2>Borrow Book</h2>
+<form method="post">
+<!-- This tag include CSRF token in the form for security purpose -->
+    {% csrf_token %}
+<!-- renders the form field as paragraph -->
+    {{ form.as_p }}
+    <button type="submit">Borrow</button>
+</form>
+{% endblock %}
