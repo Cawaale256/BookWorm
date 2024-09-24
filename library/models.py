@@ -7,6 +7,10 @@ class Book(models.Model):
     author = models.CharField(max_length=100)
     published_date = models.DateField()
     isbn = models.CharField(max_length=13, unique=True)
+    borrower = models.CharField(max_length=200, blank=True, null=True)
+    borrow_date = models.DateField(blank=True, null=True)
+    return_date = models.DateField(blank=True, null=True)
+    due_date = models.DateField(blank=True, null=True)
 
     def __str__(self):
         return self.title
