@@ -31,6 +31,10 @@ DEBUG = False
 
 ALLOWED_HOSTS = ['8000-cawaale256-bookworm-7wlk4d5e1u2.ws.codeinstitute-ide.net','.herokuapp.com']
 
+CSRF_TRUSTED_ORIGINS = [
+    'https://8000-cawaale256-bookworm-7wlk4d5e1u2.ws.codeinstitute-ide.net',
+    'https://bookworm-library-162a2f259259.herokuapp.com',
+]
 
 # Application definition
 
