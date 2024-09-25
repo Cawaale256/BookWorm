@@ -44,11 +44,11 @@ def member_detail(request, id):
 def borrow_book(request):
     if request.method == 'POST':
         form = BorrowForm(request.POST)
-    if form.is_valid():
+        if form.is_valid():
             form.save()
             return redirect('book_list')
     else:
-        form = BorrowForm()
+        form = BorrowForm()  # Initialize the form for GET requests
     return render(request, 'library/borrow_book.html', {'form': form})
 
 # Return book view
@@ -81,13 +81,4 @@ def extend_due_date(request):
             return redirect('book_list')
     else:
         form = ExtendForm()
-    return render(request, 'library/extend_due_date.html', {'form': form})    
-
-
-
-   
-
-
-
-
-
+    return render(request, 'library/extend_due_date.html', {'form': form})
