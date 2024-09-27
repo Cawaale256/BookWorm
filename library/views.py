@@ -1,4 +1,6 @@
 from django.shortcuts import render, get_object_or_404, redirect
+from django.contrib.auth import login, authenticate
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from .models import Book, Member  # Import Book and Member models
 from .forms import BookForm, MemberForm, BorrowForm, ReturnForm, ExtendForm  # Import forms
 
@@ -83,3 +85,16 @@ def extend_due_date(request):
     else:
         form = ExtendForm()
     return render(request, 'library/extend_due_date.html', {'form': form})
+
+# Sign-up view
+def signup_view(request):
+    if request.method == 'POST':
+        form = UserCreationForm(request.POST)
+        if form.is_valis():
+            form.save()
+            login(request, user) 
+            return redirect('home') # Redirect to home page 
+        else:
+            form = AuthenticationForm()
+        return render(request, 'signin.html', {'form':form})         
+
