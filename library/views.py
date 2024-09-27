@@ -96,7 +96,7 @@ def signup_view(request):
             return redirect('home') # Redirect to home page 
         else:
             form = AuthenticationForm()
-        return render(request, 'signin.html', {'form':form})         
+        return render(request, 'signup.html', {'form':form})         
 
 # sign-in view
 def signin_view(request):
@@ -106,3 +106,6 @@ def signin_view(request):
         user = form.get_user()
         login(request, user)
         return redirect('home')
+    else:
+        form = AuthenticationForm()
+    return render(request, 'signin.html', {'form':form})        
