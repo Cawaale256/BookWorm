@@ -17,16 +17,16 @@ class MemberForm(forms.ModelForm):
 class BorrowForm(forms.ModelForm):
     class Meta:
         model = Book  # Specify the model to use
-        fields = ['title', 'author', 'borrower', 'borrow_date']  # Specify the fields to include in the form
+        fields = ['title', 'author', 'published_date', 'isbn']  # Specify the fields to include in the form
 
 # Form for returning a book
 class ReturnForm(forms.ModelForm):
     class Meta:
         model = Book  # Specify the model to use
-        fields = ['title', 'author', 'borrower', 'return_date']  # Specify the fields to include in the form
+        fields = ['title', 'author', 'published_date', 'isbn']  # Specify the fields to include in the form
 
 # Form for extending the due date of a borrowed book
 class ExtendForm(forms.ModelForm):
     class Meta:
         model = Book  # Specify the model to use
-        fields = ['title', 'author', 'borrower', 'due_date']  # Specify the fields to include in the form
+        fields = ['title', 'author', 'published_date', 'due_date']  # Specify the fields to include in the form

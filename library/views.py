@@ -49,7 +49,8 @@ def borrow_book(request):
             return redirect('book_list')
     else:
         form = BorrowForm()  # Initialize the form for GET requests
-    return render(request, 'library/borrow_book.html', {'form': form})
+    # return render(request, 'library/borrow_book.html', {'form': form})
+    return render(request, 'admin/borrow_book.html', {'form': form})
 
 # Return book view
 # If the request method is POST, create a form instance with the submitted data
