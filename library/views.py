@@ -100,8 +100,8 @@ def signup_view(request):
 
 # sign-in view
 def signin_view(request):
-    if request.method == 'POST'
-    form = UserAuthenticationForm(data = request.POST)
+    if request.method =='POST':
+        form = UserAuthenticationForm(data = request.POST)
     if form.is_valid():
         user = form.get_user()
         login(request, user)
