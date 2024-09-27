@@ -90,7 +90,7 @@ def extend_due_date(request):
 def signup_view(request):
     if request.method == 'POST':
         form = UserCreationForm(request.POST)
-        if form.is_valis():
+        if form.is_valid():
             form.save()
             login(request, user) 
             return redirect('home') # Redirect to home page 
@@ -98,3 +98,11 @@ def signup_view(request):
             form = AuthenticationForm()
         return render(request, 'signin.html', {'form':form})         
 
+# sign-in view
+def signin_view(request):
+    if request.method == 'POST'
+    form = UserAuthenticationForm(data = request.POST)
+    if form.is_valid():
+        user = form.get_user()
+        login(request, user)
+        return redirect('home')
