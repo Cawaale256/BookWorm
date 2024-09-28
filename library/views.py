@@ -1,6 +1,7 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
+from django.contrib.auth.views import LogoutView
 from .models import Book, Member  # Import Book and Member models
 from .forms import BookForm, MemberForm, BorrowForm, ReturnForm, ExtendForm  # Import forms
 
