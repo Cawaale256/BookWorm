@@ -20,7 +20,7 @@ class BorrowForm(forms.ModelForm):
         fields = ['isbn', 'borrower', 'borrow_date', 'due_date'  ]  # Specify the fields to include in the form
 
     def clean_isbn(self):
-        isbn = self.cleaned.data.get('isbn')
+        isbn = self.cleaned_data.get('isbn')
         if not Book.objects.filter(isbn=isbn).exist():
             raise forms.ValidationError("Book with this isbn does not exist")    
 
