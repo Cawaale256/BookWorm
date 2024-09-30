@@ -44,17 +44,26 @@ def member_detail(request, id):
 # Redirect to the book list page after successful borrowing
 # If the request method is not POST, create an empty form instance
 # Render the borrow book page with the form
+
 def borrow_book(request):
     if request.method == 'POST':
         form = BorrowForm(request.POST)
         if form.is_valid():
-            form.save()
+            isbn = form.cleaned_data['isbn']
+            # Retrieve the book with the provided ISBN
+            book = get_object_or_404(Book, isbn=isbn)
+            # Update the book's borrower information
+            book.borrower = form.cleaned_data['borrower']
+            book.borrow_date = form.cleaned_data['borrow_date']
+            book.due_date = form.cleaned_data['due_date']
+            # Save the updated book information
+            book.save()
+            # Redirect to the book list page after successful borrowing
             return redirect('book_list')
     else:
-        form = BorrowForm()  # Initialize the form for GET requests
-    # return render(request, 'library/borrow_book.html', {'form': form})
-    return render(request, 'admin/borrow_book.html', {'form': form})
-
+        form = BorrowForm()
+    # Render the borrow book form using the correct template path
+    return render(request, 'admin/borrow_book.html', {'form': form})def borrow_book(request):
 # Return book view
 # If the request method is POST, create a form instance with the submitted data
 # If the form is valid, save the form data to the database
