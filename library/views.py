@@ -63,8 +63,7 @@ def borrow_book(request):
     else:
         form = BorrowForm()
     # Render the borrow book form using the correct template path
-    return render(request, 'admin/borrow_book.html', {'form': form})def borrow_book(request):
-# Return book view
+    return render(request, 'admin/borrow_book.html', {'form': form})
 # If the request method is POST, create a form instance with the submitted data
 # If the form is valid, save the form data to the database
 # Redirect to the book list page after successful return
