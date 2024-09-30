@@ -39,9 +39,6 @@ def member_detail(request, id):
     return render(request, 'library/member_detail.html', {'member': member})
 
 # Borrow Book
-# If the request method is POST, create a form instance with the submitted data
-# If the form is valid, save the form data to the database
-# Borrow book view
 def borrow_book(request):
     # Check if the request method is POST
     if request.method == 'POST':
@@ -63,6 +60,8 @@ def borrow_book(request):
             book.due_date = form.cleaned_data['due_date']
             # Save the updated book information
             book.save()
+            # Add a success message
+            messages.success(request, f'The book "{book.title}" has been borrowed by {book.borrower}.')
             # Redirect to the book list page after successful borrowing
             return redirect('book_list')
         else:
@@ -96,6 +95,8 @@ def return_book(request):
             book.due_date = None
             # Save the updated book information
             book.save()
+            # Add a success message
+            messages.success(request, f'The book "{book.title}" has been returned.')
             # Redirect to the book list page after successful return
             return redirect('book_list')
         else:
@@ -106,21 +107,37 @@ def return_book(request):
         form = ReturnForm()
     # Render the return book form using the correct template path
     return render(request, 'library/return_book.html', {'form': form})
-# Extend due date view
-# If the request method is POST, create a form instance with the submitted data
-# If the form is valid, save the form data to the database
-# Redirect to the book list page after successful extension
-# If the request method is not POST, create an empty form instance
-# Render the extend due date page with the form
-def extend_due_date(request):
+
+# Extend book due date view
+def extend_book(request):
+    # Check if the request method is POST
     if request.method == 'POST':
+        # Create a form instance with the POST data
         form = ExtendForm(request.POST)
+        # Check if the form is valid
         if form.is_valid():
-            form.save()
+            # Get the title from the cleaned data
+            title = form.cleaned_data['title']
+            # Get the author from the cleaned data
+            author = form.cleaned_data['author']
+            # Retrieve the book with the provided title and author
+            book = get_object_or_404(Book, title=title, author=author)
+            # Update the book's due date
+            book.due_date = form.cleaned_data['due_date']
+            # Save the updated book information
+            book.save()
+            # Add a success message
+            messages.success(request, f'The due date for the book "{book.title}" has been extended to {book.due_date}.')
+            # Redirect to the book list page after successful extension
             return redirect('book_list')
+        else:
+            # Print form errors for debugging
+            print("Form errors:", form.errors)
     else:
+        # Create an empty form instance
         form = ExtendForm()
-    return render(request, 'library/extend_due_date.html', {'form': form})
+    # Render the extend book form using the correct template path
+    return render(request, 'library/extend_book.html', {'form': form})
 
 # Sign-up view
 def signup_view(request):
