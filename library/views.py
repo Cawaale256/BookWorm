@@ -1,4 +1,5 @@
 from django.shortcuts import render, get_object_or_404, redirect
+from django.contrib import messages  # Import Django's messaging framework
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.views import LogoutView
@@ -109,7 +110,7 @@ def return_book(request):
     return render(request, 'library/return_book.html', {'form': form})
 
 # Extend book due date view
-def extend_book(request):
+def extend_due_date(request):
     # Check if the request method is POST
     if request.method == 'POST':
         # Create a form instance with the POST data
@@ -137,7 +138,7 @@ def extend_book(request):
         # Create an empty form instance
         form = ExtendForm()
     # Render the extend book form using the correct template path
-    return render(request, 'library/extend_book.html', {'form': form})
+    return render(request, 'library/extend_due_date.html', {'form': form})
 
 # Sign-up view
 def signup_view(request):
