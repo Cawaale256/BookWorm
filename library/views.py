@@ -41,9 +41,6 @@ def member_detail(request, id):
 # Borrow Book
 # If the request method is POST, create a form instance with the submitted data
 # If the form is valid, save the form data to the database
-# Redirect to the book list page after successful borrowing
-# If the request method is not POST, create an empty form instance
-# Render the borrow book page with the form
 
 def borrow_book(request):
     if request.method == 'POST':
@@ -59,11 +56,15 @@ def borrow_book(request):
             # Save the updated book information
             book.save()
             # Redirect to the book list page after successful borrowing
-            return redirect('book_list')
+            return redirect('library/book_list')
+        else:
+                # Print form errors for debugging
+                print("Form errors:", form.errors)    
     else:
         form = BorrowForm()
     # Render the borrow book form using the correct template path
-    return render(request, 'admin/borrow_book.html', {'form': form})
+    return render(request, 'library/borrow_book.html', {'form': form})
+
 # If the request method is POST, create a form instance with the submitted data
 # If the form is valid, save the form data to the database
 # Redirect to the book list page after successful return
