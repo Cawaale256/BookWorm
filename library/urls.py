@@ -1,11 +1,12 @@
 from django.urls import path
+from django.contrib.auth.views import LogoutView
 from . import views
 
 urlpatterns = [
 path('', views.home, name='home'),  # Home page
     path('signup/', views.signup_view, name='signup'),
     path('signin/', views.signin_view, name='signin'),
-    path('logout/', LogoutView.as_view(), name='logout'),
+    path('logout/', LogoutView.as_view(), name='logout'), 
     path('books/', views.book_list, name='book_list'),  # Book list page
     path('books/<int:id>/', views.book_detail, name='book_detail'),  # Book detail page
     path('members/', views.member_list, name='member_list'),  # Member list page
