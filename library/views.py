@@ -42,28 +42,29 @@ def member_detail(request, id):
 # If the request method is POST, create a form instance with the submitted data
 # If the form is valid, save the form data to the database
 
-def borrow_book(request):
+def return_book(request):
     if request.method == 'POST':
-        form = BorrowForm(request.POST)
+        form = ReturnForm(request.POST)
         if form.is_valid():
             isbn = form.cleaned_data['isbn']
             # Retrieve the book with the provided ISBN
             book = get_object_or_404(Book, isbn=isbn)
-            # Update the book's borrower information
-            book.borrower = form.cleaned_data['borrower']
-            book.borrow_date = form.cleaned_data['borrow_date']
-            book.due_date = form.cleaned_data['due_date']
+            # Update the book's return information
+            book.return_date = form.cleaned_data['return_date']
+            book.borrower = None  # Clear the borrower field
+            book.borrow_date = None  # Clear the borrow date field
+            book.due_date = None  # Clear the due date field
             # Save the updated book information
             book.save()
-            # Redirect to the book list page after successful borrowing
-            return redirect('library/book_list')
+            # Redirect to the book list page after successful return
+            return redirect('book_list')
         else:
-                # Print form errors for debugging
-                print("Form errors:", form.errors)    
+            # Print form errors for debugging
+            print("Form errors:", form.errors)
     else:
-        form = BorrowForm()
-    # Render the borrow book form using the correct template path
-    return render(request, 'library/borrow_book.html', {'form': form})
+        form = ReturnForm()
+    # Render the return book form using the correct template path
+    return render(request, 'library/return_book.html', {'form': form})
 
 # If the request method is POST, create a form instance with the submitted data
 # If the form is valid, save the form data to the database
