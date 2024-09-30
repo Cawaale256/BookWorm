@@ -19,6 +19,11 @@ class BorrowForm(forms.ModelForm):
         model = Book  # Specify the model to use
         fields = ['isbn', 'borrower', 'borrow_date', 'due_date'  ]  # Specify the fields to include in the form
 
+    def clean_isbn(self):
+        isbn = self.cleaned.data.get('isbn')
+        if not Book.objects.filter(isbn=isbn).exist():
+            raise forms.ValidationError("Book with this isbn does not exist")    
+
 # Form for returning a book
 class ReturnForm(forms.ModelForm):
     class Meta:
