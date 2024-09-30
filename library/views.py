@@ -41,19 +41,59 @@ def member_detail(request, id):
 # Borrow Book
 # If the request method is POST, create a form instance with the submitted data
 # If the form is valid, save the form data to the database
-
-def return_book(request):
+# Borrow book view
+def borrow_book(request):
+    # Check if the request method is POST
     if request.method == 'POST':
-        form = ReturnForm(request.POST)
+        # Create a form instance with the POST data
+        form = BorrowForm(request.POST)
+        # Check if the form is valid
         if form.is_valid():
+            # Get the title from the cleaned data
+            title = form.cleaned_data['title']
+            # Get the author from the cleaned data
+            author = form.cleaned_data['author']
+            # Retrieve the book with the provided title and author
+            book = get_object_or_404(Book, title=title, author=author)
+            # Update the book's borrower information
+            book.borrower = form.cleaned_data['borrower']
+            # Update the book's borrow date
+            book.borrow_date = form.cleaned_data['borrow_date']
+            # Update the book's due date
+            book.due_date = form.cleaned_data['due_date']
+            # Save the updated book information
+            book.save()
+            # Redirect to the book list page after successful borrowing
+            return redirect('book_list')
+        else:
+            # Print form errors for debugging
+            print("Form errors:", form.errors)
+    else:
+        # Create an empty form instance
+        form = BorrowForm()
+    # Render the borrow book form using the correct template path
+    return render(request, 'library/borrow_book.html', {'form': form})
+
+# Return book view
+def return_book(request):
+    # Check if the request method is POST
+    if request.method == 'POST':
+        # Create a form instance with the POST data
+        form = ReturnForm(request.POST)
+        # Check if the form is valid
+        if form.is_valid():
+            # Get the ISBN from the cleaned data
             isbn = form.cleaned_data['isbn']
             # Retrieve the book with the provided ISBN
             book = get_object_or_404(Book, isbn=isbn)
             # Update the book's return information
             book.return_date = form.cleaned_data['return_date']
-            book.borrower = None  # Clear the borrower field
-            book.borrow_date = None  # Clear the borrow date field
-            book.due_date = None  # Clear the due date field
+            # Clear the borrower field
+            book.borrower = None
+            # Clear the borrow date field
+            book.borrow_date = None
+            # Clear the due date field
+            book.due_date = None
             # Save the updated book information
             book.save()
             # Redirect to the book list page after successful return
@@ -62,25 +102,10 @@ def return_book(request):
             # Print form errors for debugging
             print("Form errors:", form.errors)
     else:
+        # Create an empty form instance
         form = ReturnForm()
     # Render the return book form using the correct template path
     return render(request, 'library/return_book.html', {'form': form})
-
-# If the request method is POST, create a form instance with the submitted data
-# If the form is valid, save the form data to the database
-# Redirect to the book list page after successful return
-# If the request method is not POST, create an empty form instance
-# Render the return book page with the form
-def return_book(request):
-    if request.method == 'POST':
-        form = ReturnForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect('book_list')
-    else:
-        form = ReturnForm()
-    return render(request, 'library/return_book.html', {'form': form})
-
 # Extend due date view
 # If the request method is POST, create a form instance with the submitted data
 # If the form is valid, save the form data to the database
