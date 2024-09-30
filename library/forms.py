@@ -21,7 +21,7 @@ class BorrowForm(forms.ModelForm):
 
     def clean_isbn(self):
         isbn = self.cleaned_data.get('isbn')
-        if not Book.objects.filter(isbn=isbn).exist():
+        if not Book.objects.filter(isbn=isbn).exists():
             raise forms.ValidationError("Book with this isbn does not exist")    
 
 # Form for returning a book
