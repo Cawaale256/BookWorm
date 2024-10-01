@@ -2,7 +2,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib import messages  # Import Django's messaging framework
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth.views import LogoutView
 from .models import Book, Member  # Import Book and Member models
 from .forms import UserRegisterForm, UserAuthenticationForm, BorrowForm, ReturnForm, ExtendForm
@@ -47,6 +47,14 @@ def book_detail(request, id):
     book = get_object_or_404(Book, id=id)
     return render(request, 'library/book_detail.html', {'book': book})
 
+# Member list view (superuser only)
+@login_required
+@user_passes_test(lambda u: u.is_superuser)
+def member_list(request):
+    members = Member.objects.all()
+    return render(request, 'library/member_list.html', {'members': members})
+
+# Borrow Book
 @login_required
 def borrow_book(request):
     if request.method == 'POST':
