@@ -35,3 +35,9 @@ class ExtendForm(forms.ModelForm):
     class Meta:
         model = Book  # Specify the model to use
         fields = ['isbn', 'due_date']  # Specify the fields to include in the form
+
+    def clean_isbn(self):
+        isbn = self.cleaned_data.get('isbn')
+        if not Book.objects.filter(isbn=isbn).exists():
+            raise forms.ValidationError("Book with this ISBN does not exist.")
+        return isbn    
