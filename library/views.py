@@ -6,7 +6,7 @@ from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth.views import LogoutView
 from .models import Book, Member  # Import Book and Member models
 from .forms import UserRegisterForm, UserAuthenticationForm, BorrowForm, ReturnForm, ExtendForm
-# from .forms import BookForm, MemberForm, BorrowForm, ReturnForm, ExtendForm  # Import forms
+
 # Home view
 def home(request):
     return render(request, 'library/home.html')
@@ -61,7 +61,7 @@ def member_detail(request, id):
     member = get_object_or_404(Member, id=id)
     return render(request, 'library/member_detail.html', {'member': member})
 
-# Borrow Book
+# Borrow book view
 @login_required
 def borrow_book(request):
     if request.method == 'POST':
