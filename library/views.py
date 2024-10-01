@@ -2,140 +2,99 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib import messages  # Import Django's messaging framework
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.views import LogoutView
 from .models import Book, Member  # Import Book and Member models
-from .forms import BookForm, MemberForm, BorrowForm, ReturnForm, ExtendForm  # Import forms
-
+from .forms import UserRegisterForm, UserAuthenticationForm, BorrowForm, ReturnForm, ExtendForm
+# from .forms import BookForm, MemberForm, BorrowForm, ReturnForm, ExtendForm  # Import forms
 # Home view
-# Render the home page
 def home(request):
     return render(request, 'library/home.html')
 
+# Sign-up view
+def signup_view(request):
+    if request.method == 'POST':
+        form = UserRegisterForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            login(request, user)
+            return redirect('home')
+    else:
+        form = UserRegisterForm()
+    return render(request, 'signup.html', {'form': form})
+
+# Sign-in view
+def signin_view(request):
+    if request.method == 'POST':
+        form = UserAuthenticationForm(data=request.POST)
+        if form.is_valid():
+            user = form.get_user()
+            login(request, user)
+            return redirect('home')
+    else:
+        form = UserAuthenticationForm()
+    return render(request, 'signin.html', {'form': form})
+
 # Book list view
-# Retrieve all books from the database
-# Render the book list page with the retrieved books
+@login_required
 def book_list(request):
     books = Book.objects.all()
-    return render(request, 'library/book_list.html', {'books': books}) 
+    return render(request, 'library/book_list.html', {'books': books})
 
-# Book detail view
-# Retrieve a specific book by its ID or return a 404 error if not found
-# Render the book detail page with the retrieved book
-def book_detail(request, id):
-    book = get_object_or_404(Book, id=id)
-    return render(request, 'library/book_detail.html', {'book': book})
-
-# Member list view
-# Retrieve all members from the database
-# Render the member list page with the retrieved members
-def member_list(request):
-    members = Member.objects.all()
-    return render(request, 'library/member_list.html', {'members': members})
-
-# Member detail view
-# Retrieve a specific member by their ID or return a 404 error if not found
-# Render the member detail page with the retrieved member
-def member_detail(request, id):
-    member = get_object_or_404(Member, id=id)
-    return render(request, 'library/member_detail.html', {'member': member})
-
-# Borrow Book
+# Borrow book view
+@login_required
 def borrow_book(request):
-    # Check if the request method is POST
     if request.method == 'POST':
-        # Create a form instance with the POST data
         form = BorrowForm(request.POST)
-        # Check if the form is valid
         if form.is_valid():
-            # Get the title from the cleaned data
-            title = form.cleaned_data['title']
-            # Get the author from the cleaned data
-            author = form.cleaned_data['author']
-            # Retrieve the book with the provided title and author
-            book = get_object_or_404(Book, title=title, author=author)
-            # Update the book's borrower information
-            book.borrower = form.cleaned_data['borrower']
-            # Update the book's borrow date
+            isbn = form.cleaned_data['isbn']
+            book = get_object_or_404(Book, isbn=isbn)
+            book.borrower = request.user
             book.borrow_date = form.cleaned_data['borrow_date']
-            # Update the book's due date
             book.due_date = form.cleaned_data['due_date']
-            # Save the updated book information
             book.save()
-            # Add a success message
-            messages.success(request, f'The book "{book.title}" has been borrowed by {book.borrower}.')
-            # Redirect to the book list page after successful borrowing
+            messages.success(request, f'The book "{book.title}" has been borrowed.')
             return redirect('book_list')
         else:
-            # Print form errors for debugging
-            print("Form errors:", form.errors)
+            messages.error(request, 'There was an error with your submission.')
     else:
-        # Create an empty form instance
         form = BorrowForm()
-    # Render the borrow book form using the correct template path
     return render(request, 'library/borrow_book.html', {'form': form})
 
 # Return book view
+@login_required
 def return_book(request):
     if request.method == 'POST':
         form = ReturnForm(request.POST)
         if form.is_valid():
             isbn = form.cleaned_data['isbn']
-            try:
-                book = get_object_or_404(Book, isbn=isbn)
-                book.borrower = None
-                book.borrow_date = None
-                book.due_date = None
-                book.save()
-                messages.success(request, f'The book "{book.title}" has been returned.')
-                return redirect('book_list')
-            except Book.DoesNotExist:
-                messages.error(request, 'Book with this ISBN does not exist.')
+            book = get_object_or_404(Book, isbn=isbn)
+            book.borrower = None
+            book.borrow_date = None
+            book.due_date = None
+            book.save()
+            messages.success(request, f'The book "{book.title}" has been returned.')
+            return redirect('book_list')
         else:
             messages.error(request, 'There was an error with your submission.')
     else:
         form = ReturnForm()
     return render(request, 'library/return_book.html', {'form': form})
 
-# Extend book due date view
+# Extend due date view
+@login_required
 def extend_due_date(request):
     if request.method == 'POST':
         form = ExtendForm(request.POST)
         if form.is_valid():
             isbn = form.cleaned_data['isbn']
-            try:
-                book = get_object_or_404(Book, isbn=isbn)
-                book.due_date = form.cleaned_data['due_date']
-                book.save()
-                messages.success(request, f'The due date for the book "{book.title}" has been extended to {book.due_date}.')
-                return redirect('book_list')
-            except Book.DoesNotExist:
-                messages.error(request, 'Book with this ISBN does not exist.')
+            book = get_object_or_404(Book, isbn=isbn)
+            book.due_date = form.cleaned_data['due_date']
+            book.save()
+            messages.success(request, f'The due date for the book "{book.title}" has been extended to {book.due_date}.')
+            return redirect('book_list')
         else:
             messages.error(request, 'There was an error with your submission.')
     else:
         form = ExtendForm()
     return render(request, 'library/extend_due_date.html', {'form': form})
-
-# Sign-up view
-def signup_view(request):
-    if request.method == 'POST':
-        form = UserCreationForm(request.POST)
-        if form.is_valid():
-            form.save()
-            login(request, user) 
-            return redirect('home') # Redirect to home page 
-        else:
-            form = AuthenticationForm()
-        return render(request, 'signup.html', {'form':form})         
-
-# sign-in view
-def signin_view(request):
-    if request.method =='POST':
-        form = UserAuthenticationForm(data = request.POST)
-    if form.is_valid():
-        user = form.get_user()
-        login(request, user)
-        return redirect('home')
-    else:
-        form = AuthenticationForm()
-    return render(request, 'signin.html', {'form':form})        
