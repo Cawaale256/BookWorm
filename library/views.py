@@ -76,37 +76,24 @@ def borrow_book(request):
 
 # Return book view
 def return_book(request):
-    # Check if the request method is POST
     if request.method == 'POST':
-        # Create a form instance with the POST data
         form = ReturnForm(request.POST)
-        # Check if the form is valid
         if form.is_valid():
-            # Get the ISBN from the cleaned data
             isbn = form.cleaned_data['isbn']
-            # Retrieve the book with the provided ISBN
-            book = get_object_or_404(Book, isbn=isbn)
-            # Update the book's return information
-            book.return_date = form.cleaned_data['return_date']
-            # Clear the borrower field
-            book.borrower = None
-            # Clear the borrow date field
-            book.borrow_date = None
-            # Clear the due date field
-            book.due_date = None
-            # Save the updated book information
-            book.save()
-            # Add a success message
-            messages.success(request, f'The book "{book.title}" has been returned.')
-            # Redirect to the book list page after successful return
-            return redirect('book_list')
+            try:
+                book = get_object_or_404(Book, isbn=isbn)
+                book.borrower = None
+                book.borrow_date = None
+                book.due_date = None
+                book.save()
+                messages.success(request, f'The book "{book.title}" has been returned.')
+                return redirect('book_list')
+            except Book.DoesNotExist:
+                messages.error(request, 'Book with this ISBN does not exist.')
         else:
-            # Print form errors for debugging
-            print("Form errors:", form.errors)
+            messages.error(request, 'There was an error with your submission.')
     else:
-        # Create an empty form instance
         form = ReturnForm()
-    # Render the return book form using the correct template path
     return render(request, 'library/return_book.html', {'form': form})
 
 # Extend book due date view
