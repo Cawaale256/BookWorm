@@ -13,7 +13,7 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 import os
 from pathlib import Path
 import dj_database_url
-
+LOGIN_URL = 'signin'
 # Import environment variables from env.py
 if os.path.isfile("env.py"):
     import env

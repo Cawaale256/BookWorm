@@ -55,11 +55,11 @@ def member_list(request):
     return render(request, 'library/member_list.html', {'members': members})
 
 # Member detail view (superuser only)
-    @login_required
-    @user_passes_test(lambda u: u.is_superuser)
-    def member_detail(request, id):
-        member = get_object_or_404(Member, id=id)
-        return render(request, 'library/member_detail.html', {'member': member})
+@login_required
+@user_passes_test(lambda u: u.is_superuser)
+def member_detail(request, id):
+    member = get_object_or_404(Member, id=id)
+    return render(request, 'library/member_detail.html', {'member': member})
 
 # Borrow Book
 @login_required
