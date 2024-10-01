@@ -98,33 +98,22 @@ def return_book(request):
 
 # Extend book due date view
 def extend_due_date(request):
-    # Check if the request method is POST
     if request.method == 'POST':
-        # Create a form instance with the POST data
         form = ExtendForm(request.POST)
-        # Check if the form is valid
         if form.is_valid():
-            # Get the title from the cleaned data
-            title = form.cleaned_data['title']
-            # Get the author from the cleaned data
-            author = form.cleaned_data['author']
-            # Retrieve the book with the provided title and author
-            book = get_object_or_404(Book, title=title, author=author)
-            # Update the book's due date
-            book.due_date = form.cleaned_data['due_date']
-            # Save the updated book information
-            book.save()
-            # Add a success message
-            messages.success(request, f'The due date for the book "{book.title}" has been extended to {book.due_date}.')
-            # Redirect to the book list page after successful extension
-            return redirect('book_list')
+            isbn = form.cleaned_data['isbn']
+            try:
+                book = get_object_or_404(Book, isbn=isbn)
+                book.due_date = form.cleaned_data['due_date']
+                book.save()
+                messages.success(request, f'The due date for the book "{book.title}" has been extended to {book.due_date}.')
+                return redirect('book_list')
+            except Book.DoesNotExist:
+                messages.error(request, 'Book with this ISBN does not exist.')
         else:
-            # Print form errors for debugging
-            print("Form errors:", form.errors)
+            messages.error(request, 'There was an error with your submission.')
     else:
-        # Create an empty form instance
         form = ExtendForm()
-    # Render the extend book form using the correct template path
     return render(request, 'library/extend_due_date.html', {'form': form})
 
 # Sign-up view
