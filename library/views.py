@@ -21,7 +21,7 @@ def signup_view(request):
             return redirect('home')
     else:
         form = UserRegisterForm()
-    return render(request, 'signup.html', {'form': form})
+    return render(request, 'library/signup.html', {'form': form})
 
 # Sign-in view
 def signin_view(request):
@@ -33,7 +33,7 @@ def signin_view(request):
             return redirect('home')
     else:
         form = UserAuthenticationForm()
-    return render(request, 'signin.html', {'form': form})
+    return render(request, 'library/signin.html', {'form': form})
 
 # Book list view
 @login_required
