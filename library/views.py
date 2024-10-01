@@ -12,7 +12,7 @@ def home(request):
     return render(request, 'library/home.html')
 
 # Sign-up view
-def signup_view(request):
+def signup(request):
     if request.method == 'POST':
         form = UserRegisterForm(request.POST)
         if form.is_valid():
@@ -24,7 +24,7 @@ def signup_view(request):
     return render(request, 'library/signup.html', {'form': form})
 
 # Sign-in view
-def signin_view(request):
+def signin(request):
     if request.method == 'POST':
         form = UserAuthenticationForm(data=request.POST)
         if form.is_valid():

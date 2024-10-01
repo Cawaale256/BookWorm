@@ -1,43 +1,33 @@
+<!-- library/templates/library/base.html -->
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}Bookworm Library{% endblock %}</title>
+    <title>{% block title %}Bookworm{% endblock %}</title>
     {% load static %}
-    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
 </head>
 <body>
     <header>
         <h1>Bookworm Library</h1>
+        <img src="{% static 'images/bookworm.png' %}">
         <nav>
             <ul>
                 <li><a href="{% url 'home' %}">Home</a></li>
                 <li><a href="{% url 'book_list' %}">Books</a></li>
-                <li><a href="{% url 'member_list' %}">Members</a></li>
                 <li><a href="{% url 'borrow_book' %}">Borrow</a></li>
                 <li><a href="{% url 'return_book' %}">Return</a></li>
-                <li><a href="{% url 'extend_due_date' %}">Extend Due Date</a></li>
-                {% if user.is_authenticated %}
-                    <li><a href="{% url 'logout' %}">Logout</a></li>
-                {% else %}
-                    <li><a href="{% url 'signin' %}">Sign In</a></li>
-                    <li><a href="{% url 'signup' %}">Sign Up</a></li>
-                {% endif %}
+                <li><a href="{% url 'extend_due_date' %}">Extend</a></li>
+                <li><a href="{% url 'signin' %}">Sign In</a></li>
+                <li><a href="{% url 'signup' %}">Sign Up</a></li>
             </ul>
         </nav>
     </header>
-    <main>
-        {% if messages %}
-            <ul class="messages">
-                {% for message in messages %}
-                    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
-                {% endfor %}
-            </ul>
-        {% endif %}
+    <div class="container">
         {% block content %}
         {% endblock %}
-    </main>
+    </div>
     <footer>
         <p>&copy; 2024 Bookworm Library</p>
     </footer>
