@@ -1,4 +1,6 @@
 from django import forms  # Import Django's forms module
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
+from django.contrib.auth.models import User
 from .models import Book, Member  # Import the Book and Member models from the current app
 
 # Form for the Book model
@@ -13,6 +15,18 @@ class MemberForm(forms.ModelForm):
         model = Member  # Specify the model to use
         fields = ['first_name', 'last_name', 'email', 'join_date']  # Specify the fields to include in the form, matching the Member model
 
+# Form for user registration
+class UserRegisterForm(UserCreationForm):
+    email = forms.EmailField()
+
+    class Meta:
+        model = User
+        fields = ['username', 'email', 'password1', 'password2']
+
+# Form for user authentication
+class UserAuthenticationForm(AuthenticationForm):
+    pass
+
 # Form for borrowing a book
 class BorrowForm(forms.ModelForm):
     class Meta:
@@ -22,7 +36,8 @@ class BorrowForm(forms.ModelForm):
     def clean_isbn(self):
         isbn = self.cleaned_data.get('isbn')
         if not Book.objects.filter(isbn=isbn).exists():
-            raise forms.ValidationError("Book with this isbn does not exist")
+            raise forms.ValidationError("Book with this ISBN does not exist.")
+        return isbn
 
 # Form for returning a book
 class ReturnForm(forms.ModelForm):
@@ -40,4 +55,4 @@ class ExtendForm(forms.ModelForm):
         isbn = self.cleaned_data.get('isbn')
         if not Book.objects.filter(isbn=isbn).exists():
             raise forms.ValidationError("Book with this ISBN does not exist.")
-        return isbn    
+        return isbn

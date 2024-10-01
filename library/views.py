@@ -41,7 +41,12 @@ def book_list(request):
     books = Book.objects.all()
     return render(request, 'library/book_list.html', {'books': books})
 
-# Borrow book view
+# Book detail view
+@login_required
+def book_detail(request, id):
+    book = get_object_or_404(Book, id=id)
+    return render(request, 'library/book_detail.html', {'book': book})
+
 @login_required
 def borrow_book(request):
     if request.method == 'POST':
