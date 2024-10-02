@@ -118,3 +118,9 @@ def extend_due_date(request):
     else:
         form = ExtendForm()
     return render(request, 'library/extend_due_date.html', {'form': form})
+
+# User dashboard view
+@login_required
+def user_dashboard(request):
+    borrowed_books = Book.objects.filter(borrower=request.user)
+    return render(request, 'library/user_dashboard.html', {'borrowed_books': borrowed_books})    
