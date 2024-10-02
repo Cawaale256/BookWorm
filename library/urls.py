@@ -9,6 +9,7 @@ path('', views.home, name='home'),  # Home page
     path('logout/', LogoutView.as_view(), name='logout'), # logout
     path('books/', views.book_list, name='book_list'),  # Book list page
     path('books/<int:id>/', views.book_detail, name='book_detail'),  # Book detail page
+    path('dashboard/', views.user_dashboard, name='user_dashboard'), # for the user dashboard
     path('members/', views.member_list, name='member_list'),  # Member list page
     path('members/<int:id>/', views.member_detail, name='member_detail'),  # Member detail page
     path('borrow/', views.borrow_book, name='borrow_book'),  # Borrow book page
