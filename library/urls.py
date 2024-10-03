@@ -9,5 +9,7 @@ urlpatterns = [
     path('book/<int:pk>/borrow/', views.borrow_book, name='borrow_book'),
     path('book/<int:pk>/extend/', views.extend_due_date, name='extend_due_date'),
     path('dashboard/', views.user_dashboard, name='user_dashboard'),
+    path('signin/', views.login_view, name='sgnin'),
+    path('signup/', views.signup_view, name='signup'),
 ]
 
