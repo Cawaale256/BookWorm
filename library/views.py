@@ -3,6 +3,10 @@ from django.contrib.auth.decorators import login_required
 from .models import Book
 from .forms import BookForm
 
+
+def home(request):
+    return render(request, 'library/home.html')
+
 # View to list all books
 def book_list(request):
     # Retrieve all book instances from the database
