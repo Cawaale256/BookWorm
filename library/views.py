@@ -66,3 +66,31 @@ def user_dashboard(request):
     borrowed_books = Book.objects.filter(borrower=request.user)
     # Render the 'user_dashboard.html' template with the list of borrowed books
     return render(request, 'library/user_dashboard.html', {'borrowed_books': borrowed_books})
+
+# View to borrow a book
+@login_required
+def borrow_book(request, pk):
+    book = get_object_or_404(Book, pk=pk)
+    if request.method == 'POST':
+        form = BorrowBookForm(request.POST, instance=book)
+        if form.is_valid():
+            book.borrower = request.user
+            book.borrowed_copies += 1
+            form.save()
+            return redirect('user_dashboard')
+    else:
+        form = BorrowBookForm(instance=book)
+    return render(request, 'library/borrow_book.html', {'form': form, 'book': book})
+
+# View to extend the due date of a borrowed book
+@login_required
+def extend_due_date(request, pk):
+    book = get_object_or_404(Book, pk=pk, borrower=request.user)
+    if request.method == 'POST':
+        form = BorrowBookForm(request.POST, instance=book)
+        if form.is_valid():
+            form.save()
+            return redirect('user_dashboard')
+    else:
+        form = BorrowBookForm(instance=book)
+    return render(request, 'library/extend_due_date.html', {'form': form, 'book': book})    
