@@ -19,3 +19,9 @@ class BorrowBookForm(forms.ModelForm):
     class Meta:
         model = Book
         fields = ['borrow_date', 'due_date']
+
+# Form for extending the due date of a borrowed book
+class ExtendForm(forms.ModelForm):
+    class Meta:
+        model = Book
+        fields = ['due_date']        

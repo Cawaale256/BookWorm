@@ -1,3 +1,5 @@
+from django.contrib.auth import login
+from django.contrib.auth.forms import AuthenticationForm
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
 from .models import Book
@@ -122,7 +124,7 @@ def signin_view(request):
             return redirect('book_list')
     else:
         form = AuthenticationForm()
-    return render(request, 'library/login.html', {'form': form})
+    return render(request, 'library/signin.html', {'form': form})
 
 # View for user sign-up
 def signup_view(request):
