@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h2>User Dashboard</h2>
+  <h3>Borrowed Books</h3>
+  <ul>
+    {% for book in borrowed_books %}
+      <li>
+        {{ book.title }} by {{ book.author }}
+        <br>
+        Borrow Date: {{ book.borrow_date }}
+        <br>
+        Due Date: {{ book.due_date }}
+        <br>
+        <a href="{% url 'extend_due_date' book.pk %}">Extend Due Date</a>
+        <a href="{% url 'return_book' book.pk %}">Return Book</a>
+      </li>
+    {% endfor %}
+  </ul>
+{% endblock %}
