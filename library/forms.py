@@ -15,7 +15,7 @@ class MemberForm(forms.ModelForm):
         # Fields to be included in the form
         fields = ['first_name', 'last_name', 'email', 'join_date']
 
-class BorrowBookForm(forms.ModelForm):
+class BorrowForm(forms.ModelForm):
     class Meta:
         model = Book
         fields = ['borrow_date', 'due_date']

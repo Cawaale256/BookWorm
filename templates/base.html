@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>{% block title %}My Library{% endblock %}</title>
+    <title>{% block title %}Bookworm Library{% endblock %}</title>
     {% load static %}
     <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
 </head>
 <body>
     <header>
-        <h1>My Library</h1>
+        <h1>Bookworm Library</h1>
         <nav>
             <ul>
                 <li><a href="{% url 'home' %}">Home</a></li> <!-- Links -->
@@ -28,7 +28,7 @@
         {% endblock %}
     </main>
     <footer>
-        <p>&copy; 2023 My Library</p>
+        <p>&copy; 2024 My Bookworm Library</p>
     </footer>
 </body>
 </html>
