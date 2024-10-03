@@ -1,14 +1,10 @@
 {% extends 'base.html' %}
 
-{% block title %}Extend Due Date{% endblock %}
-
 {% block content %}
-<h2>Extend Due Date</h2>
-<form method="post">
-<!-- This tag include CSRF token in the form for security purpose -->   
+  <h2>Extend Due Date for: {{ book.title }}</h2>
+  <form method="post">
     {% csrf_token %}
-<!-- renders the form field as paragraph -->
     {{ form.as_p }}
     <button type="submit">Extend</button>
-</form>
+  </form>
 {% endblock %}
