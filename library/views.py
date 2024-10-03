@@ -93,4 +93,17 @@ def extend_due_date(request, pk):
             return redirect('user_dashboard')
     else:
         form = BorrowBookForm(instance=book)
-    return render(request, 'library/extend_due_date.html', {'form': form, 'book': book})    
+    return render(request, 'library/extend_due_date.html', {'form': form, 'book': book}) 
+
+# View to return a borrowed book
+@login_required
+def return_book(request, pk):
+    book = get_object_or_404(Book, pk=pk, borrower=request.user)
+    if request.method == 'POST':
+        book.borrower = None
+        book.borrowed_copies -= 1
+        book.borrow_date = None
+        book.due_date = None
+        book.save()
+        return redirect('user_dashboard')
+    return render(request, 'library/return_book.html', {'book': book})
