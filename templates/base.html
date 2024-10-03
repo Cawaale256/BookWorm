@@ -2,19 +2,20 @@
 <html>
 <head>
     <title>{% block title %}My Library{% endblock %}</title>
-    <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
 </head>
 <body>
     <header>
         <h1>My Library</h1>
         <nav>
             <ul>
+                <li><a href="{% url 'home' %}">Home</a></li> <!-- Links -->
                 <li><a href="{% url 'book_list' %}">Books</a></li>
                 <li><a href="{% url 'user_dashboard' %}">Dashboard</a></li>
                 {% if user.is_authenticated %}
                     <li><a href="{% url 'logout' %}">Logout</a></li>
                 {% else %}
-                    <li><a href="{% url 'signin' %}">Login</a></li>
+                    <li><a href="{% url 'login' %}">Login</a></li>
                     <li><a href="{% url 'signup' %}">Sign Up</a></li>
                 {% endif %}
             </ul>
