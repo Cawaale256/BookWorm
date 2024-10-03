@@ -1,17 +1,21 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 # Create your models here.
 class Book(models.Model):
-    title = models.CharField(max_length=200, blank=True, null=True)
-    author = models.CharField(max_length=100, blank=True, null=True)
-    published_date = models.DateField(blank=True, null=True)
-    isbn = models.CharField(max_length=13, unique=True)
-    borrower = models.CharField(max_length=200, blank=True, null=True)
-    borrow_date = models.DateField(blank=True, null=True)
-    return_date = models.DateField(blank=True, null=True)
-    due_date = models.DateField(blank=True, null=True)
+      title = models.CharField(max_length=200, default='Unknown Title')
+      author = models.CharField(max_length=200, default='Unknown Author')
+      isbn = models.CharField(max_length=13, unique=True)
+      copies = models.PositiveIntegerField(default=1)
+      borrowed_copies = models.PositiveIntegerField(default=0)
+      borrower = models.ForeignKey(User, null=True, blank=True, on_delete=models.SET_NULL)
+      borrow_date = models.DateField(null=True, blank=True)
+      due_date = models.DateField(null=True, blank=True)
 
-    def __str__(self):
+      def is_available(self):
+           return self.copies > self.borrowed_copies
+
+      def __str__(self):
         return self.title
 
 class Member(models.Model):
