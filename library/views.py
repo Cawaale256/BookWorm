@@ -1,126 +1,43 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from django.contrib import messages  # Import Django's messaging framework
-from django.contrib.auth import login, authenticate
-from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
-from django.contrib.auth.decorators import login_required, user_passes_test
-from django.contrib.auth.views import LogoutView
-from .models import Book, Member  # Import Book and Member models
-from .forms import UserRegisterForm, UserAuthenticationForm, BorrowForm, ReturnForm, ExtendForm
+from django.contrib.auth.decorators import login_required
+from .models import Book
+from .forms import BookForm
 
-# Home view
-def home(request):
-    return render(request, 'library/home.html')
-
-# Sign-up view
-def signup(request):
-    if request.method == 'POST':
-        form = UserRegisterForm(request.POST)
-        if form.is_valid():
-            user = form.save()
-            login(request, user)
-            return redirect('home')
-    else:
-        form = UserRegisterForm()
-    return render(request, 'library/signup.html', {'form': form})
-
-# Sign-in view
-def signin(request):
-    if request.method == 'POST':
-        form = UserAuthenticationForm(data=request.POST)
-        if form.is_valid():
-            user = form.get_user()
-            login(request, user)
-            return redirect('home')
-    else:
-        form = UserAuthenticationForm()
-    return render(request, 'library/signin.html', {'form': form})
-
-# Book list view
-@login_required
+# List all books
 def book_list(request):
     books = Book.objects.all()
     return render(request, 'library/book_list.html', {'books': books})
 
-# Book detail view
+# Create a new book
 @login_required
-def book_detail(request, id):
-    book = get_object_or_404(Book, id=id)
-    return render(request, 'library/book_detail.html', {'book': book})
-
-# Member list view (superuser only)
-@login_required
-@user_passes_test(lambda u: u.is_superuser)
-def member_list(request):
-    members = Member.objects.all()
-    return render(request, 'library/member_list.html', {'members': members})
-
-# Member detail view (superuser only)
-@login_required
-@user_passes_test(lambda u: u.is_superuser)
-def member_detail(request, id):
-    member = get_object_or_404(Member, id=id)
-    return render(request, 'library/member_detail.html', {'member': member})
-
-# Borrow book view
-@login_required
-def borrow_book(request):
+def book_create(request):
     if request.method == 'POST':
-        form = BorrowForm(request.POST)
+        form = BookForm(request.POST)
         if form.is_valid():
-            isbn = form.cleaned_data['isbn']
-            book = get_object_or_404(Book, isbn=isbn)
-            book.borrower = request.user
-            book.borrow_date = form.cleaned_data['borrow_date']
-            book.due_date = form.cleaned_data['due_date']
-            book.save()
-            messages.success(request, f'The book "{book.title}" has been borrowed.')
+            form.save()
             return redirect('book_list')
-        else:
-            messages.error(request, 'There was an error with your submission.')
     else:
-        form = BorrowForm()
-    return render(request, 'library/borrow_book.html', {'form': form})
+        form = BookForm()
+    return render(request, 'library/book_form.html', {'form': form})
 
-# Return book view
+# Update an existing book
 @login_required
-def return_book(request):
+def book_update(request, pk):
+    book = get_object_or_404(Book, pk=pk)
     if request.method == 'POST':
-        form = ReturnForm(request.POST)
+        form = BookForm(request.POST, instance=book)
         if form.is_valid():
-            isbn = form.cleaned_data['isbn']
-            book = get_object_or_404(Book, isbn=isbn)
-            book.borrower = None
-            book.borrow_date = None
-            book.due_date = None
-            book.save()
-            messages.success(request, f'The book "{book.title}" has been returned.')
+            form.save()
             return redirect('book_list')
-        else:
-            messages.error(request, 'There was an error with your submission.')
     else:
-        form = ReturnForm()
-    return render(request, 'library/return_book.html', {'form': form})
+        form = BookForm(instance=book)
+    return render(request, 'library/book_form.html', {'form': form})
 
-# Extend due date view
+# Delete a book
 @login_required
-def extend_due_date(request):
+def book_delete(request, pk):
+    book = get_object_or_404(Book, pk=pk)
     if request.method == 'POST':
-        form = ExtendForm(request.POST)
-        if form.is_valid():
-            isbn = form.cleaned_data['isbn']
-            book = get_object_or_404(Book, isbn=isbn)
-            book.due_date = form.cleaned_data['due_date']
-            book.save()
-            messages.success(request, f'The due date for the book "{book.title}" has been extended to {book.due_date}.')
-            return redirect('book_list')
-        else:
-            messages.error(request, 'There was an error with your submission.')
-    else:
-        form = ExtendForm()
-    return render(request, 'library/extend_due_date.html', {'form': form})
-
-# User dashboard view
-@login_required
-def user_dashboard(request):
-    borrowed_books = Book.objects.filter(borrower=request.user)
-    return render(request, 'library/user_dashboard.html', {'borrowed_books': borrowed_books})    
+        book.delete()
+        return redirect('book_list')
+    return render(request, 'library/book_confirm_delete.html', {'book': book})
