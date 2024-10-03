@@ -1,35 +1,32 @@
-<!-- library/templates/library/base.html -->
-
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <title>{% block title %}Bookworm{% endblock %}</title>
-    {% load static %}
-    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <title>{% block title %}My Library{% endblock %}</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}">
 </head>
 <body>
     <header>
-        <h1>Bookworm Library</h1>
-        
+        <h1>My Library</h1>
         <nav>
             <ul>
-                <li><a href="{% url 'home' %}">Home</a></li>
                 <li><a href="{% url 'book_list' %}">Books</a></li>
-                <li><a href="{% url 'borrow_book' %}">Borrow</a></li>
-                <li><a href="{% url 'return_book' %}">Return</a></li>
-                <li><a href="{% url 'extend_due_date' %}">Extend</a></li>
-                <li><a href="{% url 'signin' %}">Sign In</a></li>
-                <li><a href="{% url 'signup' %}">Sign Up</a></li>
+                <li><a href="{% url 'user_dashboard' %}">Dashboard</a></li>
+                {% if user.is_authenticated %}
+                    <li><a href="{% url 'logout' %}">Logout</a></li>
+                {% else %}
+                    <li><a href="{% url 'signin' %}">Login</a></li>
+                    <li><a href="{% url 'signup' %}">Sign Up</a></li>
+                {% endif %}
             </ul>
         </nav>
     </header>
-    <div class="container">
+    <main>
         {% block content %}
+        <!-- Content specific to each page will be inserted here -->
         {% endblock %}
-    </div>
+    </main>
     <footer>
-        <p>&copy; 2024 Bookworm Library</p>
+        <p>&copy; 2023 My Library</p>
     </footer>
 </body>
 </html>
