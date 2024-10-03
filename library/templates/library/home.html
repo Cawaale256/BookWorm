@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h2>Welcome to My Library</h2>
+  <p>Explore our collection of books and manage your borrowed books through your dashboard.</p>
+  <p><a href="{% url 'book_list' %}">View Books</a></p>
+  {% if not user.is_authenticated %}
+    <p><a href="{% url 'signup' %}">Sign Up</a> or <a href="{% url 'login' %}">Login</a></p>
+  {% endif %}
+{% endblock %}
