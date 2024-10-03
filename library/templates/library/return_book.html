@@ -1,14 +1,10 @@
 {% extends 'base.html' %}
 
-{% block title %}Return Book{% endblock %}
-
 {% block content %}
-<h2>Return Book</h2>
-<form method="post">
-<!-- This tag include CSRF token in the form for security purpose -->    
+  <h2>Return Book: {{ book.title }}</h2>
+  <form method="post">
     {% csrf_token %}
-<!-- renders the form field as paragraph -->
-    {{ form.as_p }}
+    <p>Are you sure you want to return this book?</p>
     <button type="submit">Return</button>
-</form>
+  </form>
 {% endblock %}
