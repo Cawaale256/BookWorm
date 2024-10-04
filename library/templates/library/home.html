@@ -1,10 +1,29 @@
-{% extends 'base.html' %}
+{{% extends "base.html" %}
 
 {% block content %}
-  <h2>Welcome to Bookworm Library</h2>
-  <p>Explore our collection of books and manage your borrowed books through your dashboard.</p>
-  <p><a href="{% url 'book_list' %}">View Books</a></p>
-  {% if not user.is_authenticated %}
-    <p><a href="{% url 'signup' %}">Sign Up</a> or <a href="{% url 'signin' %}">Signin</a></p>
-  {% endif %}
+  <h2>Library Books</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Title</th>
+        <th>Author</th>
+        <th>ISBN</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for book in books %}
+        <tr>
+          <td>{{ book.title }}</td>
+          <td>{{ book.author }}</td>
+          <td>{{ book.isbn }}</td>
+          <td>
+            <a href="{% url 'borrow_book' book.pk %}">Borrow</a> |
+            <a href="{% url 'return_book' book.pk %}">Return</a> |
+            <a href="{% url 'extend_due_date' book.pk %}">Extend</a>
+          </td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
 {% endblock %}
