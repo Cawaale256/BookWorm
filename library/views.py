@@ -79,7 +79,15 @@ def extend_due_date(request, pk):
     else:
         form = ExtendForm(instance=book)
     return render(request, 'library/extend_due_date.html', {'form': form, 'book': book})
-
+    
+# Retrieve the book instance by primary key (pk) and ensure it is borrowed by the current user
+# If the request method is POST, process the return book action
+# Remove the borrower
+# Decrement the borrowed_copies count
+# clear the due_date
+# save the  changes to the database
+# redirect to the dash board
+# if the request method is GET, render the return book confirmation pag
 @login_required
 def return_book(request, pk):
     book = get_object_or_404(Book, pk=pk, borrower=request.user)
