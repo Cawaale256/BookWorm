@@ -37,7 +37,7 @@ class BookAdmin(admin.ModelAdmin):
                 return redirect('..')
         else:
             form = BorrowForm(instance=book)
-        return render(request, 'admin/borrow_book.html', {'form': form, 'book': book})
+        return render(request, 'library/borrow_book.html', {'form': form, 'book': book})
 
 # Register the Book model with the custom admin class
 admin.site.register(Book, BookAdmin)

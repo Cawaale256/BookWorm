@@ -80,14 +80,15 @@ def user_dashboard(request):
 def borrow_book(request, pk):
     book = get_object_or_404(Book, pk=pk)
     if request.method == 'POST':
-        form = BorrowBookForm(request.POST, instance=book)
+        form = BorrowForm(request.POST, instance=book)
         if form.is_valid():
             book.borrower = request.user
             book.borrowed_copies += 1
             form.save()
-            return redirect('user_dashboard')
+            messages.success(request, "Book borrowed successfully.")
+            return redirect('home')
     else:
-        form = BorrowBookForm(instance=book)
+        form = BorrowForm(instance=book)
     return render(request, 'library/borrow_book.html', {'form': form, 'book': book})
 
 # View to extend the due date of a borrowed book
@@ -95,14 +96,14 @@ def borrow_book(request, pk):
 def extend_due_date(request, pk):
     book = get_object_or_404(Book, pk=pk, borrower=request.user)
     if request.method == 'POST':
-        form = BorrowBookForm(request.POST, instance=book)
+        form = ExtendForm(request.POST, instance=book)
         if form.is_valid():
             form.save()
-            return redirect('user_dashboard')
+            messages.success(request, "Due date extended successfully.")
+            return redirect('home')
     else:
-        form = BorrowBookForm(instance=book)
-    return render(request, 'library/extend_due_date.html', {'form': form, 'book': book}) 
-
+        form = ExtendForm(instance=book)
+    return render(request, 'library/extend_due_date.html', {'form': form, 'book': book})
 # View to return a borrowed book
 @login_required
 def return_book(request, pk):
@@ -113,9 +114,9 @@ def return_book(request, pk):
         book.borrow_date = None
         book.due_date = None
         book.save()
-        return redirect('user_dashboard')
+        messages.success(request, "Book returned successfully.")
+        return redirect('home')
     return render(request, 'library/return_book.html', {'book': book})
-
 # View for user login
 def signin_view(request):
     if request.method == 'POST':
