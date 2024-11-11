@@ -27,14 +27,17 @@ TEMPLATES_DIR = os.path.join(BASE_DIR, 'templates')
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.environ.get('SECRET_KEY')
+if not SECRET_KEY:
+    raise ValueError("The SECRET_KEY setting must not be empty.")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['8000-cawaale256-bookworm-7wlk4d5e1u2.ws.codeinstitute-ide.net','.herokuapp.com']
+#  ALLOWED_HOSTS = ['8000-cawaale256-bookworm-7wlk4d5e1u2.ws.codeinstitute-ide.net','.herokuapp.com']
+ALLOWED_HOSTS = ['8000-cawaale256-bookworm-t0uirrdhf4v.ws.codeinstitute-ide.net','.herokuapp.com']
 
 CSRF_TRUSTED_ORIGINS = [
-    'https://8000-cawaale256-bookworm-7wlk4d5e1u2.ws.codeinstitute-ide.net',
+    'https://8000-cawaale256-bookworm-t0uirrdhf4v.ws.codeinstitute-ide.net',
     'https://bookworm-library-162a2f259259.herokuapp.com',
 ]
 
