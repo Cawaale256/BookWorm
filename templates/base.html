@@ -10,11 +10,11 @@
         <h1>Bookworm Library</h1>
         <nav>
             <ul>
-                <li><a href="{% url 'home' %}">Home</a></li> <!-- Links -->
+                <li><a href="{% url 'home' %}">Home</a></li>
                 <li><a href="{% url 'book_list' %}">Books</a></li>
                 <li><a href="{% url 'user_dashboard' %}">Dashboard</a></li>
                 {% if user.is_authenticated %}
-                    <li><a href="{% url 'logout' %}">Logout</a></li>
+                    <li><a href="{% url 'signout' %}">Logout</a></li>
                 {% else %}
                     <li><a href="{% url 'signin' %}">Sign In</a></li>
                     <li><a href="{% url 'signup' %}">Sign Up</a></li>
@@ -23,6 +23,17 @@
         </nav>
     </header>
     <main>
+        <!-- Display messages -->
+        {% if messages %}
+            <div class="messages">
+                {% for message in messages %}
+                    <div class="alert {{ message.tags }}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+        
         {% block content %}
         <!-- Content specific to each page will be inserted here -->
         {% endblock %}
@@ -32,3 +43,12 @@
     </footer>
 </body>
 </html>
+
+
+
+
+
+
+
+
+

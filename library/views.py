@@ -22,6 +22,7 @@ def book_create(request):
         form = BookForm(request.POST)
         if form.is_valid():
             form.save()
+            messages.success(request, "Book created successfully.")
             return redirect('book_list')
     else:
         form = BookForm()
@@ -34,6 +35,7 @@ def book_update(request, pk):
         form = BookForm(request.POST, instance=book)
         if form.is_valid():
             form.save()
+            messages.success(request, "Book updated successfully.")
             return redirect('book_list')
     else:
         form = BookForm(instance=book)
@@ -44,6 +46,7 @@ def book_delete(request, pk):
     book = get_object_or_404(Book, pk=pk)
     if request.method == 'POST':
         book.delete()
+        messages.success(request, "Book deleted successfully.")
         return redirect('book_list')
     return render(request, 'library/book_confirm_delete.html', {'book': book})
 
