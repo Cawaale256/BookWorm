@@ -18,6 +18,10 @@ def book_list(request):
 
 @login_required
 def book_create(request):
+    if not request.user.is_superuser:
+        messages.error(request, "You do not have permission to create books.")
+        return redirect('book_list')
+    
     if request.method == 'POST':
         form = BookForm(request.POST)
         if form.is_valid():
@@ -30,6 +34,10 @@ def book_create(request):
 
 @login_required
 def book_update(request, pk):
+    if not request.user.is_superuser:
+        messages.error(request, "You do not have permission to update books.")
+        return redirect('book_list')
+    
     book = get_object_or_404(Book, pk=pk)
     if request.method == 'POST':
         form = BookForm(request.POST, instance=book)
@@ -43,6 +51,10 @@ def book_update(request, pk):
 
 @login_required
 def book_delete(request, pk):
+    if not request.user.is_superuser:
+        messages.error(request, "You do not have permission to delete books.")
+        return redirect('book_list')
+    
     book = get_object_or_404(Book, pk=pk)
     if request.method == 'POST':
         book.delete()
