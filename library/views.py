@@ -129,4 +129,4 @@ def signup_view(request):
 def signout_View(request):
     logout(request)
     messages.success(request, "You have logged out successfully.")
-    return redirect('signin')    
+    return redirect('home')    

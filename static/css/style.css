@@ -76,6 +76,41 @@ button:hover {
     background-color: #575757;
 }
 
+/* Action Button Styles */
+.btn {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    color: white;
+    cursor: pointer;
+    font-size: 16px;
+    margin: 5px;
+}
+
+.btn-create {
+    background-color: #4CAF50; /* Green */
+}
+
+.btn-update {
+    background-color: #2196F3; /* Blue */
+}
+
+.btn-delete {
+    background-color: #f44336; /* Red */
+}
+
+.btn-borrow {
+    background-color: #FF9800; /* Orange */
+}
+
+.btn-extend {
+    background-color: #9C27B0; /* Purple */
+}
+
+.btn-return {
+    background-color: #795548; /* Brown */
+}
+
 /* Responsive Styles */
 @media (max-width: 768px) {
     nav ul li {
