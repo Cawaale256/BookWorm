@@ -1,4 +1,4 @@
-from django.contrib.auth import login
+from django.contrib.auth import login, logout
 from django.contrib.auth.forms import AuthenticationForm
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.forms import UserCreationForm
@@ -125,3 +125,8 @@ def signup_view(request):
     else:
         form = UserCreationForm()
     return render(request, 'library/signup.html', {'form': form})
+
+def signout_View(request):
+    logout(request)
+    messages.success(request, "You have logged out successfully.")
+    return redirect('signin')    
