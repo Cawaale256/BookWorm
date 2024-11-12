@@ -13,7 +13,7 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 import os
 from pathlib import Path
 import dj_database_url
-LOGIN_URL = 'signin'
+LOGIN_URL = 'signin_view'
 # Import environment variables from env.py
 if os.path.isfile("env.py"):
     import env
@@ -31,7 +31,7 @@ if not SECRET_KEY:
     raise ValueError("The SECRET_KEY setting must not be empty.")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 #  ALLOWED_HOSTS = ['8000-cawaale256-bookworm-7wlk4d5e1u2.ws.codeinstitute-ide.net','.herokuapp.com']
 ALLOWED_HOSTS = ['8000-cawaale256-bookworm-t0uirrdhf4v.ws.codeinstitute-ide.net','.herokuapp.com']

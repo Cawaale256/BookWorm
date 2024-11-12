@@ -1,7 +1,6 @@
 from django.contrib.auth import login, logout
-from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 from django.shortcuts import render, get_object_or_404, redirect
-from django.contrib.auth.forms import UserCreationForm
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from .models import Book
@@ -11,7 +10,6 @@ def home(request):
     books = Book.objects.all()
     return render(request, 'library/home.html', {'books': books})
 
-# View to list all books
 def book_list(request):
     books = Book.objects.all()
     return render(request, 'library/book_list.html', {'books': books})
@@ -94,15 +92,7 @@ def extend_due_date(request, pk):
     else:
         form = ExtendForm(instance=book)
     return render(request, 'library/extend_due_date.html', {'form': form, 'book': book})
-    
-# Retrieve the book instance by primary key (pk) and ensure it is borrowed by the current user
-# If the request method is POST, process the return book action
-# Remove the borrower
-# Decrement the borrowed_copies count
-# clear the due_date
-# save the  changes to the database
-# redirect to the dash board
-# if the request method is GET, render the return book confirmation pag
+
 @login_required
 def return_book(request, pk):
     book = get_object_or_404(Book, pk=pk, borrower=request.user)
@@ -138,7 +128,7 @@ def signup_view(request):
         form = UserCreationForm()
     return render(request, 'library/signup.html', {'form': form})
 
-def signout_View(request):
+def signout_view(request):
     logout(request)
     messages.success(request, "You have logged out successfully.")
-    return redirect('home')    
+    return redirect('signin_view')    

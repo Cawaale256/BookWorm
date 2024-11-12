@@ -12,8 +12,7 @@ urlpatterns = [
     path('book/<int:pk>/extend/', views.extend_due_date, name='extend_due_date'),
     path('book/<int:pk>/return/', views.return_book, name='return_book'),
     path('dashboard/', views.user_dashboard, name='user_dashboard'),
-    path('login/', views.signin_view, name='signin_view'),
+    path('signin/', views.signin_view, name='signin_view'),
     path('signup/', views.signup_view, name='signup_view'),
-    path('signout/', auth_views.LogoutView.as_view(), name='signout_view'),
+    path('signout/', auth_views.LogoutView.as_view(next_page='signin_view'), name='signout_view'),
 ]
-
