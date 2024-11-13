@@ -1,156 +1,147 @@
-/* static/css/styles.css */
-
-/* General Styles */
 body {
-    background: url('../images/bookworm2.png') no-repeat center center fixed;
-    background-size: cover;
     font-family: Arial, sans-serif;
-    color: #333;
     margin: 0;
     padding: 0;
+    background-color: #f4f4f4;
+    background-image: url('../images/bookworm2.png'); /* Path to your background image */
+    background-size: cover; /* Ensure the image covers the entire background */
+    background-position: center; /* Center the image */
+    background-repeat: no-repeat; /* Do not repeat the image */
 }
 
-/* Header Styles */
 header {
+    background-color: rgba(51, 51, 51, 0.8); /* Semi-transparent background */
+    color: #fff;
+    padding: 10px 0;
     text-align: center;
-    padding: 20px;
-    background-color: rgba(255, 255, 255, 0.8);
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 header h1 {
-    font-size: 3em;
-    color: #333;
     margin: 0;
 }
 
-header img {
-    width: 100px;
-    height: auto;
-    margin-top: 10px;
-}
-
-/* Navigation Styles */
-nav {
-    margin-top: 20px;
-}
-
 nav ul {
-    list-style-type: none;
+    list-style: none;
     padding: 0;
-    display: flex;
-    justify-content: center;
-    gap: 20px;
+    text-align: center;
 }
 
 nav ul li {
     display: inline;
+    margin-right: 10px;
 }
 
 nav ul li a {
+    color: #fff;
     text-decoration: none;
-    color: #333;
-    font-weight: bold;
-    padding: 10px 20px;
+    padding: 5px 10px;
     border-radius: 5px;
-    transition: background-color 0.3s;
+    transition: background-color 0.3s ease;
 }
 
 nav ul li a:hover {
-    background-color: #555;
-    color: #fff;
+    background-color: #575757;
 }
 
-/* Container Styles */
-.container {
-    margin: 20px auto;
+main {
     padding: 20px;
+    background-color: rgba(255, 255, 255, 0.8); /* Semi-transparent background for readability */
+    margin: 20px auto;
     max-width: 800px;
-    background-color: rgba(255, 255, 255, 0.9);
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
-/* Form Styles */
-form {
-    display: flex;
-    flex-direction: column;
-}
-
-form label {
-    margin-bottom: 5px;
-    font-weight: bold;
-}
-
-form input, form select {
-    margin-bottom: 15px;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-}
-
-form button {
-    padding: 10px 20px;
-    background-color: #333;
-    color: #fff;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-form button:hover {
-    background-color: #555;
-}
-
-/* Message Styles */
-ul {
-    list-style-type: none;
-    padding: 0;
-}
-
-ul li {
-    margin: 10px 0;
-    padding: 10px;
-    border-radius: 5px;
-}
-
-ul li.success {
-    background-color: #d4edda;
-    color: #155724;
-}
-
-ul li.error {
-    background-color: #f8d7da;
-    color: #721c24;
-}
-
-/* Table Styles */
-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-bottom: 20px;
-}
-
-table, th, td {
-    border: 1px solid #ccc;
-}
-
-th, td {
-    padding: 10px;
-    text-align: left;
-}
-
-th {
-    background-color: #f2f2f2;
-}
-
-/* Footer Styles */
 footer {
+    background-color: rgba(51, 51, 51, 0.8); /* Semi-transparent background */
+    color: #fff;
     text-align: center;
-    padding: 10px;
-    background-color: rgba(255, 255, 255, 0.8);
-    box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1);
+    padding: 10px 0;
     position: fixed;
     width: 100%;
     bottom: 0;
+}
+
+button {
+    background-color: #333;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #575757;
+}
+
+/* Action Button Styles */
+.btn {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    color: white;
+    cursor: pointer;
+    font-size: 16px;
+    margin: 5px;
+}
+
+.btn-create {
+    background-color: #4CAF50; /* Green */
+}
+
+.btn-update {
+    background-color: #2196F3; /* Blue */
+}
+
+.btn-delete {
+    background-color: #f44336; /* Red */
+}
+
+.btn-borrow {
+    background-color: #FF9800; /* Orange */
+}
+
+.btn-extend {
+    background-color: #9C27B0; /* Purple */
+}
+
+.btn-return {
+    background-color: #795548; /* Brown */
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+    nav ul li {
+        display: block;
+        margin: 10px 0;
+    }
+
+    main {
+        padding: 10px;
+        margin: 10px;
+        max-width: 100%;
+    }
+
+    footer {
+        position: static;
+        padding: 20px 0;
+    }
+}
+
+@media (max-width: 480px) {
+    header h1 {
+        font-size: 1.5em;
+    }
+
+    nav ul li a {
+        padding: 10px;
+        font-size: 1em;
+    }
+
+    button {
+        padding: 10px;
+        font-size: 1em;
+    }
 }
