@@ -18,8 +18,8 @@
           <td>{{ book.author }}</td>
           <td>{{ book.isbn }}</td>
           <td>
-            <a href="{% url 'borrow_book' book.pk %}" class="btn btn-borrow">Borrow</a> |
-            <a href="{% url 'return_book' book.pk %}" class="btn btn-return">Return</a> |
+            <a href="{% url 'borrow_book' book.pk %}" class="btn btn-borrow">Borrow</a> 
+            <a href="{% url 'return_book' book.pk %}" class="btn btn-return">Return</a> 
             <a href="{% url 'extend_due_date' book.pk %}" class="btn btn-extend">Extend</a>
           </td>
         </tr>

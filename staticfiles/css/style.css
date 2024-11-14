@@ -76,7 +76,7 @@ button:hover {
     background-color: #575757;
 }
 
-/* Action Button Styles */
+/* General button styles */
 .btn {
     padding: 10px 20px;
     border: none;
@@ -84,9 +84,11 @@ button:hover {
     color: white;
     cursor: pointer;
     font-size: 16px;
-    margin: 5px;
+    margin: 5px; /* Add margin to ensure spacing between buttons */
+    display: inline-block; /* Ensure buttons are displayed inline */
 }
 
+/* Specific button styles */
 .btn-create {
     background-color: #4CAF50; /* Green */
 }
@@ -109,6 +111,14 @@ button:hover {
 
 .btn-return {
     background-color: #795548; /* Brown */
+}
+
+/* Ensure buttons are displayed inline and spaced properly */
+.actions {
+    display: flex;
+    flex-wrap: nowrap; /* Prevent buttons from wrapping */
+    gap: 10px; /* Add gap between buttons */
+    justify-content: space-between; /* Distribute buttons evenly */
 }
 
 /* Responsive Styles */

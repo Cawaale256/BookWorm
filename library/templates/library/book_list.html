@@ -9,13 +9,15 @@
         {% for book in books %}
             <li>
                 {{ book.title }} by {{ book.author }}
-                {% if user.is_superuser %}
-                    <a href="{% url 'book_update' book.pk %}" class="btn btn-update">Update</a>
-                    <a href="{% url 'book_delete' book.pk %}" class="btn btn-delete">Delete</a>
-                {% endif %}
-                <a href="{% url 'borrow_book' book.pk %}" class="btn btn-borrow">Borrow</a>
-                <a href="{% url 'extend_due_date' book.pk %}" class="btn btn-extend">Extend Due Date</a>
-                <a href="{% url 'return_book' book.pk %}" class="btn btn-return">Return</a>
+                <div class="actions">
+                    {% if user.is_superuser %}
+                        <a href="{% url 'book_update' book.pk %}" class="btn btn-update">Update</a>
+                        <a href="{% url 'book_delete' book.pk %}" class="btn btn-delete">Delete</a>
+                    {% endif %}
+                    <a href="{% url 'borrow_book' book.pk %}" class="btn btn-borrow">Borrow</a>
+                    <a href="{% url 'extend_due_date' book.pk %}" class="btn btn-extend">Extend Due Date</a>
+                    <a href="{% url 'return_book' book.pk %}" class="btn btn-return">Return</a>
+                </div>
             </li>
         {% endfor %}
     </ul>
