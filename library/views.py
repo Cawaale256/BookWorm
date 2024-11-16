@@ -112,7 +112,10 @@ def signin_view(request):
         if form.is_valid():
             user = form.get_user()
             login(request, user)
+            messages.success(request, "You have successfully signed in.")
             return redirect('book_list')
+        else:
+            messages.error(request, "Invalid username or password.")
     else:
         form = AuthenticationForm()
     return render(request, 'library/signin.html', {'form': form})
@@ -123,7 +126,10 @@ def signup_view(request):
         if form.is_valid():
             user = form.save()
             login(request, user)
+            messages.success(request, "You have successfully signed up and logged in.")
             return redirect('book_list')
+        else:
+            messages.error(request, "There was an error with your sign-up. Please try again.")
     else:
         form = UserCreationForm()
     return render(request, 'library/signup.html', {'form': form})
@@ -131,4 +137,4 @@ def signup_view(request):
 def signout_view(request):
     logout(request)
     messages.success(request, "You have logged out successfully.")
-    return redirect('signin_view')    
+    return redirect('signin_view')
