@@ -14,8 +14,8 @@
                 <li><a href="{% url 'book_list' %}">Books</a></li>
                 <li><a href="{% url 'user_dashboard' %}">Dashboard</a></li>
                 {% if user.is_authenticated %}
-                    <li>Welcome, {{ user.username }}!</li>
-                    <li><a href="{% url 'signout_view' %}">Signout</a></li>
+                    <li><a href="{% url 'signout_view' %}">Signout</a></li> 
+                    <span>Welcome, {{ user.username }}!</span>
                 {% else %}
                     <li><a href="{% url 'signin_view' %}">Sign In</a></li>
                     <li><a href="{% url 'signup_view' %}">Sign Up</a></li>
