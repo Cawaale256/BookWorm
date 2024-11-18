@@ -138,3 +138,28 @@ def signout_view(request):
     logout(request)
     messages.success(request, "You have logged out successfully.")
     return redirect('signin_view')
+
+@login_required
+def member_list(request):
+    members = Member.objects.all()
+    return render(request, 'library/member_list.html', {'members': members})
+
+@login_required
+def member_profile(request, pk):
+    member = get_object_or_404(Member, pk=pk)
+    return render(request, 'library/member_profile.html', {'member': member})
+
+@login_required
+def edit_member(request, pk):
+    member = get_object_or_404(Member, pk=pk)
+    if request.method == 'POST':
+        form = MemberForm(request.POST, instance=member)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Member details updated successfully.")
+            return redirect('member_profile', pk=member.pk)
+        else:
+            messages.error(request, "There was an error updating the member details. Please try again.")
+    else:
+        form = MemberForm(instance=member)
+    return render(request, 'library/edit_member.html', {'form': form, 'member': member})    
