@@ -3,8 +3,8 @@ from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from .models import Book
-from .forms import BookForm, BorrowForm, ExtendForm
+from .models import Book, Member
+from .forms import BookForm, BorrowForm, ExtendForm, MemberForm
 
 def home(request):
     books = Book.objects.all()
@@ -126,6 +126,14 @@ def signup_view(request):
         if form.is_valid():
             user = form.save()
             login(request, user)
+# Create a Member entry for the new user, except for superusers
+            if not user.is_superuser:
+                Member.objects.create(
+                    first_name=user.first_name,
+                    last_name=user.last_name,
+                    email=user.email,
+                    join_date=timezone.now()
+                )
             messages.success(request, "You have successfully signed up and logged in.")
             return redirect('book_list')
         else:
