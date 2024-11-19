@@ -5,6 +5,7 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from .models import Book, Member
 from .forms import BookForm, BorrowForm, ExtendForm, MemberForm
+from django.utils import timezone
 
 def home(request):
     books = Book.objects.all()
@@ -126,7 +127,7 @@ def signup_view(request):
         if form.is_valid():
             user = form.save()
             login(request, user)
-# Create a Member entry for the new user, except for superusers
+            # Create a Member entry for the new user, except for superusers
             if not user.is_superuser:
                 Member.objects.create(
                     first_name=user.first_name,
@@ -141,7 +142,6 @@ def signup_view(request):
     else:
         form = UserCreationForm()
     return render(request, 'library/signup.html', {'form': form})
-
 def signout_view(request):
     logout(request)
     messages.success(request, "You have logged out successfully.")
@@ -149,6 +149,9 @@ def signout_view(request):
 
 @login_required
 def member_list(request):
+    if not request.user.is_superuser:
+        messages.error(request, "You do not have permission to view this page.")
+        return redirect('home')
     members = Member.objects.all()
     return render(request, 'library/member_list.html', {'members': members})
 
@@ -170,4 +173,4 @@ def edit_member(request, pk):
             messages.error(request, "There was an error updating the member details. Please try again.")
     else:
         form = MemberForm(instance=member)
-    return render(request, 'library/edit_member.html', {'form': form, 'member': member})    
+    return render(request, 'library/edit_member.html', {'form': form, 'member': member})

@@ -2,7 +2,7 @@
 
 {% block content %}
     <h2>Member Profile: {{ member.first_name }} {{ member.last_name }}</h2>
-    <p>Email: {{ member.email }}</p>
+    
     <p>Join Date: {{ member.join_date }}</p>
     <a href="{% url 'edit_member' member.pk %}" class="btn btn-update">Edit Member</a>
 {% endblock %}
