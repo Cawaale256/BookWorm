@@ -294,12 +294,16 @@ By addressing these issues, the application will meet all the user stories and p
   
 
 
-Deployment
+## Deployment
 
 Final Deployment steps
 The live link to the application can be found here
 https://bookworm-library-162a2f259259.herokuapp.com/
 
+## Credit
+https://developer.mozilla.org/en-US/docs/Learn/Server-side/Django/Tutorial_local_library_website
+https://www.geeksforgeeks.org/e-book-library-using-django/
+https://www.w3schools.com/django/
 
 ## Technologies Used
 
