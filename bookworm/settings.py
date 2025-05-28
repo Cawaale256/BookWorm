@@ -34,7 +34,8 @@ if not SECRET_KEY:
 DEBUG = False
 
 #  ALLOWED_HOSTS = ['8000-cawaale256-bookworm-7wlk4d5e1u2.ws.codeinstitute-ide.net','.herokuapp.com']
-ALLOWED_HOSTS = ['8000-cawaale256-bookworm-t0uirrdhf4v.ws.codeinstitute-ide.net','.herokuapp.com']
+#ALLOWED_HOSTS = ['8000-cawaale256-bookworm-t0uirrdhf4v.ws.codeinstitute-ide.net','.herokuapp.com']
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', '8000-cawaale256-bookworm-t0uirrdhf4v.ws.codeinstitute-ide.net', '.herokuapp.com']
 
 CSRF_TRUSTED_ORIGINS = [
     'https://8000-cawaale256-bookworm-t0uirrdhf4v.ws.codeinstitute-ide.net',
@@ -101,6 +102,9 @@ WSGI_APPLICATION = 'bookworm.wsgi.application'
 DATABASES = {
     'default': dj_database_url.parse(os.environ.get("DATABASE_URL"), conn_max_age=600, ssl_require=True)
 }
+
+print(f"DATABASE_URL: {os.environ.get('DATABASE_URL')}")
+print(f"SECRET_KEY: {os.environ.get('SECRET_KEY')}")
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
