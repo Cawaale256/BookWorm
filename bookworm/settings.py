@@ -34,17 +34,15 @@ TEMPLATES_DIR = BASE_DIR / "templates"
 # -------------------------------------------------------------------
 ENVIRONMENT = os.getenv("ENVIRONMENT", "local").lower()
 
-ENV_FILE_MAP = {
-    "local": BASE_DIR / ".env.local",
-    "production": BASE_DIR / ".env.production",
-}
+if ENVIRONMENT == "local":
+    env_path = BASE_DIR / ".env.local"
+    if env_path.exists():
+        load_dotenv(dotenv_path=env_path)
+elif ENVIRONMENT == "production":
+    # On Heroku, variables come from Config Vars — no file load
+    pass
 
-env_path = ENV_FILE_MAP.get(ENVIRONMENT, ENV_FILE_MAP["local"])
-
-if env_path.exists():
-    load_dotenv(dotenv_path=env_path)
-else:
-    raise FileNotFoundError(f" Environment file not found: {env_path}")
+# Fallback: os.environ will always be checked if no file was loaded
 
 # -------------------------------------------------------------------
 # Security & debug

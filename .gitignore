@@ -2,8 +2,28 @@ core.Microsoft*
 core.mongo*
 core.python*
 env.py
-__pycache__/
+__pycache__/@Cawaale256 ➜ /workspaces/BookWorm (main) $ git rm --cached .env 
+rm '.env'
+@Cawaale256 ➜ /workspaces/BookWorm (main) $ git add .gitignore
+@Cawaale256 ➜ /workspaces/BookWorm (main) $ git commit -m "Stop tracking .env and add to .gitignore"
+[main cd8a045] Stop tracking .env and add to .gitignore
+ 1 file changed, 3 deletions(-)
+ delete mode 100644 .env
+@Cawaale256 ➜ /workspaces/BookWorm (main) $ git push
+Enumerating objects: 3, done.
+Counting objects: 100% (3/3), done.
+Delta compression using up to 2 threads
+Compressing objects: 100% (2/2), done.
+Writing objects: 100% (2/2), 243 bytes | 243.00 KiB/s, done.
+Total 2 (delta 1), reused 0 (delta 0), pack-reused 0 (from 0)
+remote: Resolving deltas: 100% (1/1), completed with 1 local object.
+To https://github.com/Cawaale256/BookWorm
+   9c80886..cd8a045  main -> main
+@Cawaale256 ➜ /workspaces/BookWorm (main) $ 
 *.py[cod]
 node_modules/
 .github/
 cloudinary_python.txt.env
+.env
+.env.local
+.env.production
