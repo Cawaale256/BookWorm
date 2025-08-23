@@ -1,5 +1,15 @@
+# .slugignore
 *.md
+*.sqlite3
+*.csv
+*.log
+__pycache__/
+*.pyc
 tests/
 docs/
-.env
-.vscode/
+media/
+.env*
+*.DS_Store
+*.tar.gz
+*.zip
+*.bak
