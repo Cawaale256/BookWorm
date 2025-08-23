@@ -48,6 +48,9 @@ elif ENVIRONMENT == "production":
 # Security & debug
 # -------------------------------------------------------------------
 SECRET_KEY = os.getenv("SECRET_KEY")
+# Fail fast if SECRET_KEY is missing
+if not SECRET_KEY:
+    raise ValueError("SECRET_KEY is not set in environment variables.")
 DEBUG = os.getenv("DEBUG", "False").lower() == "true"
 
 # Hosts & CSRF
@@ -140,11 +143,15 @@ USE_TZ = True
 # -------------------------------------------------------------------
 # Static files
 # -------------------------------------------------------------------
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
 STATICFILES_DIRS = [os.path.join(BASE_DIR, "static")]
 STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
 # WhiteNoise static file compression and manifest support
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+# WhiteNoise static file compression and manifest support (production only)
+if ENVIRONMENT == "production":
+    STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
 # -------------------------------------------------------------------
 # Default primary key field type
 # -------------------------------------------------------------------
