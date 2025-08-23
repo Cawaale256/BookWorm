@@ -1,0 +1,5 @@
+*.md
+tests/
+docs/
+.env
+.vscode/
