@@ -143,14 +143,19 @@ USE_TZ = True
 # -------------------------------------------------------------------
 # Static files
 # -------------------------------------------------------------------
+# -------------------------------------------------------------------
+# Static files
+# -------------------------------------------------------------------
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [os.path.join(BASE_DIR, "static")]
 STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
-# WhiteNoise static file compression and manifest support
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
 # WhiteNoise static file compression and manifest support (production only)
 if ENVIRONMENT == "production":
     STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+else:
+    STATICFILES_STORAGE = 'whitenoise.storage.StaticFilesStorage'
+
 
 # -------------------------------------------------------------------
 # Default primary key field type
