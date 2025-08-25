@@ -296,6 +296,62 @@ By addressing these issues, the application will meet all the user stories and p
 
 ## Deployment
 
+### Environment Setup
+This project uses separate environment files for local development and production to keep sensitive information secure and make deployments smoother.
+
+1️⃣ Create Your Environment Files
+From the project root:
+
+bash
+cp .env.example .env.local
+.env.local — for local development (never committed)
+
+.env.production — for production deployment (never committed)
+
+⚠️ Never commit .env.local or .env.production
+
+2️⃣ Fill in Environment Variables
+Open .env.local and add your real values:
+
+env
+DEBUG=True
+SECRET_KEY=your-local-secret-key
+DATABASE_URL=postgresql://user:pass@localhost:5432/bookworm_db
+ALLOWED_HOSTS=localhost,127.0.0.1
+CSRF_TRUSTED_ORIGINS=http://localhost:8000
+For .env.production:
+
+env
+DEBUG=False
+SECRET_KEY=your-production-secret-key
+DATABASE_URL=postgresql://<user>:<password>@<host>/<database>?sslmode=require
+ALLOWED_HOSTS=yourdomain.com,.herokuapp.com
+CSRF_TRUSTED_ORIGINS=https://yourdomain.com,https://yourapp.herokuapp.com
+3️⃣ Choosing the Environment
+Run with the desired environment:
+
+Local development:
+
+bash
+export ENVIRONMENT=local
+python manage.py runserver
+Production:
+
+bash
+export ENVIRONMENT=production
+# start your production server (e.g., gunicorn, Heroku will handle this)
+4️⃣ .env.example for Onboarding
+.env.example is committed to the repo and contains placeholders only. Anyone setting up the project can copy it to .env.local and fill in their own values.
+
+env
+DEBUG=
+SECRET_KEY=
+DATABASE_URL=
+ALLOWED_HOSTS=
+CSRF_TRUSTED_ORIGINS=
+
+
+
 ### Host & CSRF Configuration
 
 This project uses environment‑based settings for domain and CSRF protection, making it easy to switch between development, staging, and production without touching code.
