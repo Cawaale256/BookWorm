@@ -2,6 +2,14 @@ from django.urls import path
 from django.contrib.auth import views as auth_views
 from . import views
 
+from django.urls import path
+from library.views import debug_view  # adjust if your view is elsewhere
+
+urlpatterns = [
+    path('debug/', debug_view, name='debug'),
+]
+
+
 urlpatterns = [
     path('', views.home, name='home'),  # Home page
     path('books/', views.book_list, name='book_list'),

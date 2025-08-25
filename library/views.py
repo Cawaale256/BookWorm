@@ -6,6 +6,13 @@ from django.contrib.auth.decorators import login_required
 from .models import Book, Member
 from .forms import BookForm, BorrowForm, ExtendForm, MemberForm
 from django.utils import timezone
+from django.http import HttpResponseBadRequest, HttpResponse
+
+
+def debug_view(request):
+    if request.method != "POST":
+        return HttpResponseBadRequest("Only POST allowed")
+    return HttpResponse("Request OK")
 
 def home(request):
     books = Book.objects.all()
