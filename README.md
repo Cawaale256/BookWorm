@@ -296,6 +296,25 @@ By addressing these issues, the application will meet all the user stories and p
 
 ## Deployment
 
+### Host & CSRF Configuration
+
+This project uses environment‑based settings for domain and CSRF protection, making it easy to switch between development, staging, and production without touching code.
+
+ALLOWED_HOSTS — List of hostnames the app will serve. Loaded from environment variables, with sensible fallbacks for local dev (localhost, 127.0.0.1).
+
+CSRF_TRUSTED_ORIGINS — Fully‑qualified, HTTPS‑prefixed domains allowed for secure form submissions and admin access.
+
+Example: Local .env
+
+ALLOWED_HOSTS=localhost,127.0.0.1
+CSRF_TRUSTED_ORIGINS=https://yourdomain.com,https://bookworm-library.herokuapp.com
+
+Example: Heroku Config Vars
+
+heroku config:set ALLOWED_HOSTS=bookworm-library-162a2f259259.herokuapp.com,localhost,127.0.0.1
+heroku config:set CSRF_TRUSTED_ORIGINS=https://bookworm-library-162a2f259259.herokuapp.com
+
+
 Final Deployment steps
 The live link to the application can be found here
 https://bookworm-library-162a2f259259.herokuapp.com/
